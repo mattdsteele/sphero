@@ -6,6 +6,7 @@ var app = (function() {
   var cw = canvas.width;
   var ch = canvas.height;
   var pixelCount = cw*ch;
+  var socket = io('/');
 
   function takeImage() {
     ctx.drawImage(video, 0, 0, cw, ch);
@@ -30,8 +31,7 @@ var app = (function() {
   }
 
   function handle(colors) {
-    var bg = document.querySelector('body');
-    bg.style.backgroundColor = 'rgb(' + colors.r + ',' + colors.g + ',' + colors.b + ')';
+    socket.emit('color', colors);
   };
 
   function paint() {
@@ -40,6 +40,7 @@ var app = (function() {
     handle(colors);
     window.requestAnimationFrame(paint);
   }
+
   function setCanvas() {
     var raf = window.requestAnimationFrame;
     raf(paint);
