@@ -55,7 +55,6 @@ var app = (function() {
 (function(app) {
   navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
 
-  var constraints = {audio: false, video: true};
   var video = document.querySelector("video");
 
   function successCallback(stream) {
@@ -72,8 +71,19 @@ var app = (function() {
   function errorCallback(error){
     console.log("navigator.getUserMedia error: ", error);
   }
+  MediaStreamTrack.getSources(function(source) {
+    //We choose the last value, just for the lulz
+    videoSource = source[source.length-1].id;
 
-  navigator.getUserMedia(constraints, successCallback, errorCallback);
+    var constraints = {
+      audio: false,
+      video: {
+        optional: [{sourceId: videoSource}]
+      }
+    };
+    navigator.getUserMedia(constraints, successCallback, errorCallback);
+  });
+
 
 })(app);
 
