@@ -1,0 +1,19 @@
+{
+  "name": "sphero-cam",
+  "version": "0.0.0",
+  "authors": [
+    "Matt Steele <orphum@gmail.com>"
+  ],
+  "description": "fun with sphero and getUserMedia",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "color-thief": "*"
+  }
+}
