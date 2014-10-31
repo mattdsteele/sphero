@@ -1,18 +1,19 @@
 var io = require('socket.io')();
-var sphero = require('./spheron/sphero-colors');
+var sphero = require('./lib/sphero');
 
 io.on('connection', function(socket) {
   console.log('we gots a connection');
-  sphero.connect().then(function() {
+  sphero.connect().then(function(ball) {
     console.log('yeah i am connected');
+    socket.on('color', function(data) {
+      ball.setRGB(toRgb(data));
+    });
   });
 
   function toRgb(data) {
-    return parseInt((data.r.toString(16) + data.g.toString(16) + data.b.toString(16)), 16);
+    return (data.r << 16) + (data.g << 8) + data.b;
   }
-  socket.on('color', function(data) {
-    sphero.setColor(toRgb(data));
-  });
+
   socket.on('disconnect', function() {
     console.log('disconnecting!');
     sphero.disconnect();
